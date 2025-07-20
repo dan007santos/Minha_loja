@@ -1,161 +1,45 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Admin - Minha Loja 🛍️</title>
-    <link rel="stylesheet" href="css/admin.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>📊 Painel Admin - Minha Loja</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Header -->
-    <header class="admin-header">
-        <div class="container">
-            <div class="logo">
-                <h1>🛍️ Admin Panel</h1>
-            </div>
-            <nav class="nav">
-                <a href="index.html">Ver Loja</a>
-                <a href="#produtos">Produtos</a>
-                <a href="#vendas">Vendas</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="admin-main">
-        <div class="container">
-            
-            <!-- Stats Cards -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-box"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalProducts">0</h3>
-                        <p>Produtos</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalSales">0</h3>
-                        <p>Vendas</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>R$ <span id="totalRevenue">0,00</span></h3>
-                        <p>Receita</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product Management -->
-            <section id="produtos" class="admin-section">
-                <div class="section-header">
-                    <h2>Gerenciar Produtos</h2>
-                    <button class="btn-primary" onclick="showAddProductModal()">
-                        <i class="fas fa-plus"></i> Adicionar Produto
-                    </button>
-                </div>
-                
-                <div class="products-table">
-                    <table id="productsTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>Preço</th>
-                                <th>Estoque</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productsTableBody">
-                            <!-- Produtos serão carregados aqui -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Sales History -->
-            <section id="vendas" class="admin-section">
-                <div class="section-header">
-                    <h2>Histórico de Vendas</h2>
-                </div>
-                
-                <div class="sales-table">
-                    <table id="salesTable">
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Cliente</th>
-                                <th>Produtos</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="salesTableBody">
-                            <!-- Vendas serão carregadas aqui -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-        </div>
-    </main>
-
-    <!-- Add Product Modal -->
-    <div class="modal" id="addProductModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Adicionar Produto</h3>
-                <span class="close" onclick="closeAddProductModal()">&times;</span>
-            </div>
-            <form id="addProductForm">
-                <div class="form-group">
-                    <label>Nome do Produto:</label>
-                    <input type="text" id="productName" required>
-                </div>
-                <div class="form-group">
-                    <label>Descrição:</label>
-                    <textarea id="productDescription" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Preço (R$):</label>
-                    <input type="number" id="productPrice" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label>URL da Imagem:</label>
-                    <input type="url" id="productImage" required>
-                </div>
-                <div class="form-group">
-                    <label>Quantidade em Estoque:</label>
-                    <input type="number" id="productStock" required>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" onclick="closeAddProductModal()">Cancelar</button>
-                    <button type="submit" class="btn-primary">Adicionar Produto</button>
-                </div>
-            </form>
-        </div>
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>� Painel Admin - Minha Loja</h1>
+      <a href="index.html" class="back-link">← Voltar para Loja</a>
     </div>
 
-    <!-- Modal Overlay -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeAddProductModal()"></div>
-
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
     
-    <!-- Scripts -->
-    <script src="js/firebase-config.js"></script>
-    <script src="js/admin.js"></script>
+    <div class="admin-content">
+      <h2>📋 Pedidos Recebidos</h2>
+      <p>Veja todos os pedidos feitos na sua loja em tempo real.</p>
+      <div class="admin-cards" id="ordersList">
+        <p class="loading">Carregando pedidos...</p>
+      </div>
+    </div>
+    
+    <!-- Stats Section -->
+    <div class="admin-stats">
+      <div class="stat-card">
+        <h3>Total de Pedidos</h3>
+        <span class="stat-number" id="totalOrders">0</span>
+      </div>
+      <div class="stat-card">
+        <h3>Receita Total</h3>
+        <span class="stat-number" id="totalRevenue">R$ 0,00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/admin.js"></script>
 </body>
 </html>

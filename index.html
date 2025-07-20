@@ -1,112 +1,96 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Loja Virtual 🛍️</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Minha Loja Virtual - Produtos Inteligentes e Inovadores com Entrega Global">
+  <meta name="keywords" content="loja virtual, produtos inteligentes, IA, automação, tecnologia, e-commerce">
+  <meta name="author" content="Seu Nome">
+  <title>Minha Loja Virtual</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Minha Loja Virtual">
+  <meta property="og:description" content="Compre produtos inteligentes e inovadores com entrega global.">
+  <meta property="og:image" content="https://dan007santos.github.io/Minha_loja/assets/og-image.jpg">
+  <meta property="og:url" content="https://dan007santos.github.io/Minha_loja/">
+  <meta property="og:type" content="website">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <h1>🛍️ Minha Loja</h1>
-            </div>
-            <nav class="nav">
-                <a href="#home">Início</a>
-                <a href="#produtos">Produtos</a>
-                <a href="#contato">Contato</a>
-            </nav>
-            <div class="cart-icon" onclick="toggleCart()">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count" id="cartCount">0</span>
-            </div>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h2>Bem-vindo à Minha Loja Virtual</h2>
-                <p>Encontre os melhores produtos com preços incríveis!</p>
-                <button class="btn-primary" onclick="scrollTo('#produtos')">Ver Produtos</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section id="produtos" class="products">
-        <div class="container">
-            <h2>Nossos Produtos</h2>
-            <div class="products-grid" id="productsGrid">
-                <!-- Produtos serão carregados dinamicamente -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Cart Sidebar -->
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3>🛒 Carrinho</h3>
-            <button class="close-cart" onclick="toggleCart()">×</button>
-        </div>
-        <div class="cart-items" id="cartItems">
-            <p class="empty-cart">Seu carrinho está vazio</p>
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <strong>Total: R$ <span id="cartTotal">0,00</span></strong>
-            </div>
-            <button class="btn-primary btn-checkout" onclick="checkout()">
-                Finalizar Compra
-            </button>
-        </div>
+  <header class="header">
+    <div class="logo">🛒 Minha Loja</div>
+    <nav>
+      <a href="#products">Produtos</a>
+      <a href="#about">Sobre</a>
+      <a href="#contact">Contato</a>
+    </nav>
+    <div class="cart-icon" onclick="openCart()">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="cart-count" id="cartCount">0</span>
     </div>
+  </header>
 
-    <!-- Cart Overlay -->
-    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <section class="hero">
+    <h1>🚀 Seja Bem-Vindo à Minha Loja Virtual</h1>
+    <p>Produtos inteligentes, preços justos e entrega global.</p>
+    <a href="#products" class="cta-button">Ver Produtos</a>
+  </section>
 
-    <!-- Contact Section -->
-    <section id="contato" class="contact">
-        <div class="container">
-            <h2>Entre em Contato</h2>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <p>contato@minhaloja.com</p>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <p>(11) 99999-9999</p>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <p>São Paulo, SP</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <section class="products" id="products">
+    <div class="container">
+      <h2>🛍️ Nossos Produtos</h2>
+      <div class="products-grid" id="productsGrid">
+        <!-- Produtos serão carregados via JS -->
+      </div>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Minha Loja Virtual. Todos os direitos reservados.</p>
-            <div class="admin-link">
-                <a href="admin.html">Painel Admin</a>
-            </div>
-        </div>
-    </footer>
+  <footer class="footer" id="contact">
+    <div class="footer-content">
+      <div class="social-icons">
+        <a href="https://instagram.com/minhaloja" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://facebook.com/minhaloja" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://tiktok.com/@minhaloja" target="_blank"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <p>&copy; 2025 Minha Loja. Todos os direitos reservados.</p>
+      <div class="admin-link">
+        <a href="admin.html">Painel Admin</a>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-    
-    <!-- Scripts -->
-    <script src="js/firebase-config.js"></script>
-    <script src="js/cart.js"></script>
-    <script src="js/main.js"></script>
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+      <span class="close-cart" onclick="closeCart()">&times;</span>
+      <h2>Seu Carrinho</h2>
+      <div class="cart-items" id="cartItems">
+        <p class="empty-cart">Seu carrinho está vazio</p>
+      </div>
+      <div class="cart-total">
+        <strong>Total: R$ <span id="cartTotal">0,00</span></strong>
+      </div>
+      <button class="checkout-btn" onclick="checkout()">Finalizar Compra</button>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+  
+  <!-- Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

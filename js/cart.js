@@ -74,7 +74,7 @@ class Cart {
             cartCount.textContent = this.getCount();
         }
 
-        // Update cart items
+        // Update cart items in modal
         const cartItems = document.getElementById('cartItems');
         const cartTotal = document.getElementById('cartTotal');
         

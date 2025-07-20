@@ -85,27 +85,39 @@ function handleAddToCart(productId) {
     });
 }
 
+// Cart functions for new modal structure
+function openCart() {
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) {
+        cartModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeCart() {
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) {
+        cartModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
 // Setup event listeners
 function setupEventListeners() {
     // Close cart when clicking outside
-    document.addEventListener('click', function(e) {
-        const cartSidebar = document.getElementById('cartSidebar');
-        const cartIcon = document.querySelector('.cart-icon');
-        
-        if (cartSidebar && cartSidebar.classList.contains('open')) {
-            if (!cartSidebar.contains(e.target) && !cartIcon.contains(e.target)) {
-                toggleCart();
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) {
+        cartModal.addEventListener('click', function(e) {
+            if (e.target === cartModal) {
+                closeCart();
             }
-        }
-    });
+        });
+    }
 
     // Handle escape key to close cart
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            const cartSidebar = document.getElementById('cartSidebar');
-            if (cartSidebar && cartSidebar.classList.contains('open')) {
-                toggleCart();
-            }
+            closeCart();
         }
     });
 
@@ -115,18 +127,13 @@ function setupEventListeners() {
 
 // Handle window resize
 function handleResize() {
-    const cartSidebar = document.getElementById('cartSidebar');
-    if (cartSidebar && window.innerWidth <= 768) {
-        cartSidebar.style.width = '100vw';
-    } else if (cartSidebar) {
-        cartSidebar.style.width = '400px';
-    }
+    // Handle any resize-related updates
 }
 
 // Setup smooth scrolling
 function setupSmoothScrolling() {
     // Smooth scroll for navigation links
-    const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -134,7 +141,7 @@ function setupSmoothScrolling() {
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                const headerHeight = document.querySelector('.header').offsetHeight;
+                const headerHeight = document.querySelector('.header').offsetHeight || 70;
                 const targetPosition = targetElement.offsetTop - headerHeight - 20;
                 
                 window.scrollTo({
@@ -144,13 +151,31 @@ function setupSmoothScrolling() {
             }
         });
     });
+
+    // Smooth scroll for CTA button
+    const ctaButton = document.querySelector('.cta-button');
+    if (ctaButton) {
+        ctaButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetElement = document.querySelector('#products');
+            if (targetElement) {
+                const headerHeight = document.querySelector('.header').offsetHeight || 70;
+                const targetPosition = targetElement.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
 }
 
 // Scroll to function for buttons
 function scrollTo(selector) {
     const element = document.querySelector(selector);
     if (element) {
-        const headerHeight = document.querySelector('.header').offsetHeight;
+        const headerHeight = document.querySelector('.header').offsetHeight || 70;
         const targetPosition = element.offsetTop - headerHeight - 20;
         
         window.scrollTo({
@@ -160,122 +185,78 @@ function scrollTo(selector) {
     }
 }
 
-// Search functionality
-function searchProducts(query) {
-    const productsGrid = document.getElementById('productsGrid');
-    if (!productsGrid) return;
-
-    window.db.getProducts((products) => {
-        const filteredProducts = products.filter(product => 
-            product.name.toLowerCase().includes(query.toLowerCase()) ||
-            product.description.toLowerCase().includes(query.toLowerCase())
-        );
-
-        if (filteredProducts.length === 0) {
-            productsGrid.innerHTML = '<div class="loading">Nenhum produto encontrado para sua busca.</div>';
-        } else {
-            const productsHTML = filteredProducts.map(product => createProductCard(product)).join('');
-            productsGrid.innerHTML = productsHTML;
-        }
-    });
+// Checkout function
+function checkout() {
+    cart.checkout();
 }
 
-// Filter products by price range
-function filterByPrice(minPrice, maxPrice) {
-    const productsGrid = document.getElementById('productsGrid');
-    if (!productsGrid) return;
-
-    window.db.getProducts((products) => {
-        const filteredProducts = products.filter(product => 
-            product.price >= minPrice && product.price <= maxPrice
-        );
-
-        if (filteredProducts.length === 0) {
-            productsGrid.innerHTML = '<div class="loading">Nenhum produto encontrado nesta faixa de preço.</div>';
-        } else {
-            const productsHTML = filteredProducts.map(product => createProductCard(product)).join('');
-            productsGrid.innerHTML = productsHTML;
-        }
-    });
-}
-
-// Sort products
-function sortProducts(criteria) {
-    const productsGrid = document.getElementById('productsGrid');
-    if (!productsGrid) return;
-
-    window.db.getProducts((products) => {
-        let sortedProducts = [...products];
-
-        switch (criteria) {
-            case 'price-low':
-                sortedProducts.sort((a, b) => a.price - b.price);
-                break;
-            case 'price-high':
-                sortedProducts.sort((a, b) => b.price - a.price);
-                break;
-            case 'name':
-                sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
-                break;
-            case 'stock':
-                sortedProducts.sort((a, b) => b.stock - a.stock);
-                break;
-        }
-
-        const productsHTML = sortedProducts.map(product => createProductCard(product)).join('');
-        productsGrid.innerHTML = productsHTML;
-    });
-}
-
-// Newsletter subscription (mock)
-function subscribeNewsletter(email) {
-    if (!email || !email.includes('@')) {
-        alert('Por favor, insira um email válido.');
-        return;
+// Add CSS for modal and new structure
+const additionalStyles = document.createElement('style');
+additionalStyles.textContent = `
+    .cart-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        align-items: center;
+        justify-content: center;
     }
 
-    // Mock subscription
-    alert('Obrigado por se inscrever na nossa newsletter!');
-}
-
-// Contact form submission (mock)
-function submitContactForm(formData) {
-    // Mock form submission
-    alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
-}
-
-// Utility functions
-const utils = {
-    // Format currency
-    formatCurrency: (value) => {
-        return new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        }).format(value);
-    },
-
-    // Format date
-    formatDate: (date) => {
-        return new Intl.DateTimeFormat('pt-BR').format(new Date(date));
-    },
-
-    // Debounce function
-    debounce: (func, wait) => {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
+    .cart-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
     }
-};
 
-// Add CSS for out of stock
-const outOfStockStyles = document.createElement('style');
-outOfStockStyles.textContent = `
+    .close-cart {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: #aaa;
+    }
+
+    .close-cart:hover {
+        color: #000;
+    }
+
+    .cart-content h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .checkout-btn {
+        width: 100%;
+        padding: 15px;
+        background: #ff4757;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: background 0.3s;
+    }
+
+    .checkout-btn:hover {
+        background: #ff3838;
+    }
+
     .out-of-stock {
         position: absolute;
         top: 10px;
@@ -298,5 +279,20 @@ outOfStockStyles.textContent = `
         opacity: 0.5;
         cursor: not-allowed;
     }
+
+    .empty-cart {
+        text-align: center;
+        color: #666;
+        padding: 20px;
+    }
+
+    .cart-total {
+        text-align: center;
+        font-size: 1.2rem;
+        margin: 15px 0;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
 `;
-document.head.appendChild(outOfStockStyles);
+document.head.appendChild(additionalStyles);
